@@ -175,6 +175,7 @@ class Remangler {
   bool Failed = false;
 
   void printNode(const Node *node, OutputBuffer &nodeOutBuffer) {
+    initializeOutputBuffer(nullptr, nullptr, nodeOutBuffer, 1024);
     node->print(nodeOutBuffer);
   }
 
@@ -257,6 +258,7 @@ class Remangler {
     }
     default: {
       OutputBuffer errorTypeOut;
+      initializeOutputBuffer(nullptr, nullptr, errorTypeOut, 1024);
       errorTypeOut << "Unhandled name : ";
       nameNode->print(errorTypeOut);
       errorTypeOut << "\n";
@@ -427,6 +429,7 @@ class Remangler {
     }
     default: {
       OutputBuffer errorTypeOut;
+      initializeOutputBuffer(nullptr, nullptr, errorTypeOut, 1024);
       errorTypeOut << "Unhandled type : ";
       typeNode->print(errorTypeOut);
       errorTypeOut << "\n";
@@ -466,6 +469,7 @@ public:
   std::string remangle() {
     Subs.clear();
     OutputBuffer remanglingStream;
+    initializeOutputBuffer(nullptr, nullptr, remanglingStream, 1024);
     remangleOpenCLCFunction(Root, remanglingStream);
     std::string remangled = std::string(remanglingStream.getBuffer(),
                                         remanglingStream.getCurrentPosition());
